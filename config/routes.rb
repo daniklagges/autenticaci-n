@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'render/index'
   resources :comments
   resources :news
   devise_for :users
