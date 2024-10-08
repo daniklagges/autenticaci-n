@@ -1,0 +1,19 @@
+databases:
+  - name: therianews_db
+    databaseName: therianews
+    user: therianews_user
+    plan: free
+
+services:
+  - type: web
+    name: therianews
+    runtime: ruby
+    buildCommand: "./bin/render-build.sh"
+    startCommand: "bundle exec rails server"
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: therianews_db
+          property: connectionString
+      - key: RAILS_MASTER_KEY
+        sync: false

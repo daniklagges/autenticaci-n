@@ -1,0 +1,25 @@
+<!-- app/views/news/show.html.erb -->
+
+<h1><%= @news.title %></h1>
+<p><%= @news.content %></p>
+
+<h2>Comentarios</h2>
+
+<% @news.comments.each do |comment| %>
+  <div>
+    <p><strong><%= comment.user.email %>:</strong> <%= comment.content %></p>
+    <% if current_user&.admin? %>
+      <%= button_to 'Eliminar', [comment.news, comment], method: :delete, data: { confirm: "¿Estás seguro?" } %>
+    <% end %>
+  </div>
+<% end %>
+
+<% if user_signed_in? %>
+  <h3>Agregar comentario</h3>
+  <%= form_with(model: [@news, Comment.new], local: true) do |form| %>
+    <div class="form-group">
+      <%= form.text_area :content, class: 'form-control' %>
+    </div>
+    <%= form.submit 'Publicar', class: 'btn btn-primary' %>
+  <% end %>
+<% end %>
